@@ -1,39 +1,39 @@
-//-------------------------------------------------------------------------
-//				www.verificationguide.com   testbench.sv
-//-------------------------------------------------------------------------
-//tbench_top or testbench top, this is the top most file, in which DUT(Design Under Test) and Verification environment are connected. 
-//-------------------------------------------------------------------------
+//-----------------------------------------------
+// NOMBRE DEL MODULO: TB_clkdivider.sv
+// DESCRIPCION: Este modulo es el test bench para clkDivider.sv
+// ENTRADAS: clk (Reloj inicial) reset (reinicio del programa)
+// SALIDAS:  clk_out (Reloj de salida)
+// VERSION:  1.0
+// AUTORES:  Andrés Hernandez, Carem Bernabe
+// FECHA:    18 / 02 / 19
+//----------------------------------------------
 
-//including interfcae and testcase files
 `include "clkDivider.sv"
 
-
 module tbench_top;
-  
-  //clock and reset signal declaration
+  // Input signals
   bit clk;
   bit reset;
 
+  // Output signal
   wire clk_out;
   
-  //clock generation
+  // Clock generation
   always #5 clk = ~clk;
-  
-  //reset Generation
+
+  // Reset Generation
   initial begin
     reset = 1;
     #5 reset =0;
   end
-  
-  
-  
-  //DUT instance, interface signals are connected to the DUT ports
+
+  //clkDivider instance
   clkDivider CD (
    .i_reset(reset),
-   .i_clk(clk),
+   .i_clk_FPGA(clk),
   
-   .o_frequency(clk_out)
-);
+   .o_clk(clk_out)
+  );
   
   //enabling the wave dump
   initial begin 
